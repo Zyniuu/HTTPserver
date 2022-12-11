@@ -2,6 +2,7 @@
 
 
 int is_get_req(char *header) {
+    /* Check if first three characters of the header are 'GET' */
     char start_req[3] = "GET";
     for (int i = 0; i < 3; i++) {
         if (header[i] != start_req[i]) { return 0; }
@@ -21,7 +22,7 @@ void get_filename_from_header(char *header, char *filenamebuff) {
     /* for avoiding '/' in output */
     index++;
 
-    /* check if filename is empty and return 'index.html' if so*/
+    /* check if filename is empty and return 'index.html' if so */
     if (header[index] == end_char) { strcpy(filenamebuff, "index.html"); }
     else {
         /* add characters to the string until space is detected */
