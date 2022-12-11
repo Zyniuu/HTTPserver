@@ -7,12 +7,31 @@ int receive_request(int sock, char *buff) {
     return read;
 }
 
-void send_header(int client_sock) {
-    char *msg = "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\nContent-Length: 42\r\n\r\n";
-    send(client_sock, msg, strlen(msg), 0);
+void send_header(int client_sock, int bytes_to_send, char *extension) {
+    char type[16];
+    if (!strcmp(extension, "html")) { strcpy(type, "text/html"); }
+    else if (!strcmp(extension, "css")) { strcpy(type, "text/css"); }
+    else if (!strcmp(extension, "js")) { strcpy(type, "text/javascript"); }
+    else if (!strcmp(extension, "png") || !strcmp(extension, "jpg") || !strcmp(extension, "jpeg")) { strcpy(type, "image/webp"); }
+    
+    if (bytes_to_send > 0) {
+        char header[4096];
+        sprintf(header, "HTTP/1.0 200 OK\r\nContent-Type: %s\r\nContent-Length: %d\r\n\r\n", type, bytes_to_send);
+        send(client_sock, header, strlen(header), 0);
+    }
+    else {
+        char *header = "HTTP/1.0 404 Not Found\r\n\r\n";
+        send(client_sock, header, strlen(header), 0);
+    }
 }
 
-void send_body(int client_sock) {
-    char *msg = "<html>\r\n<h1>Strona testowa</h1>\r\n</html>\r\n";
-    send(client_sock, msg, strlen(msg), 0);
+void send_body(int client_sock, FILE *file, int file_size) {
+    int offset = 0;
+    int result;
+    char buffer[4096];
+    while (offset < file_size) {
+        result = fread(buffer, 1, 4096, file);
+        offset += result;
+        send(client_sock, buffer, result, 0);
+    }
 }

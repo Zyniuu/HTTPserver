@@ -1,5 +1,6 @@
 *.[oa]
 *.exe
+*.sh
 bin/
 obj/
 

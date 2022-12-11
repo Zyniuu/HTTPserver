@@ -5,7 +5,7 @@
 
 SOCKET init_socket();           // initialize socket and return it
 
-int bind_socket(SOCKET *sock);  // bind socket to local ip and port 80
+int bind_socket(int sock);      // bind socket to local ip and port 80
 
 
 #endif

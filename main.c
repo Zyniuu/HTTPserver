@@ -21,13 +21,13 @@ int main() {
     puts("[*] Socket created.");
 
     puts("Binding socket...");
-    if ((bind_status = bind_socket(&sock)) == -1) {
+    if ((bind_status = bind_socket(sock)) == -1) {
         printf("[X]  Could not bind socket. Error code: %d\n", WSAGetLastError());
         return 1;
     }
     puts("[*] Socket binded.");
 
-    if ((handle_status = handle_connections(&sock)) == -1) {
+    if ((handle_status = handle_connections(sock)) == -1) {
         printf("[X]  Could not handle connections. Error code: %d\n", WSAGetLastError());
         return 1;
     }
