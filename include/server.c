@@ -64,7 +64,7 @@ int handle_connections(int sock) {
         buff[recv_size] = '\0';
         puts(buff);
 
-        /* Proceed only if this GET request */
+        /* Proceed only if this is GET request */
         if (is_get_req(buff)) {
             /* Get filename and file extension */
             get_filename_from_header(buff, filename);
